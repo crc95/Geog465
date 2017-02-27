@@ -1,0 +1,31 @@
+<html>
+<head><title>Los Angeles Stuff</title>
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css"/>
+</head>
+<body>
+	<script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+	<div id="map" style="width: 600px; height: 400px; margin: auto"></div>
+	<script>
+		var map = L.map('map',
+		{
+		center: [34.0522342,-118.2436849],
+		zoom: 7
+		});
+		L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(map);
+		var multipolyline = L.polyline([[[35, -116.62987],[34.19738, -119],[34.5, -119.80634]]], 
+			{color: 'green',weight:3}).addTo(map);
+		var multipolygon = L.polygon([[[33.11654, -117.58318],[33.263666, -116.059570],[34.07384, -116.52412]],
+			[[33.11654, -121],[33.263666, -120.059570],[33.7384, -120.52412]],
+			[[34.0, -115.58318],[34.263666, -115.059570],[34.5,-114],[33.07384, -115.52412]]], 
+			{color: 'orange', fillColor: 'red' ,weight:4}).addTo(map);
+		var rec = L.rectangle([[32.38, -116.875], [32.8, -118.62987]], 
+			{color: "DeepPink", fillColor: 'black', weight: 3}).addTo(map);
+		var circle = L.circle([34.10418, -115.62987], 13046.72 ).addTo(map);
+				
+		var marker1 = L.marker([33.812092, -117.918974], {title:"Disneyland",alt:"Marker MyPoint"}).addTo(map);
+		var marker2 = L.marker([34.953034, -120.435719], {title:"Random Town",alt:"Marker MyPoint"}).addTo(map);
+		var marker3 = L.marker([35.000472, -116.883545], {title:"Hills",alt:"Marker MyPoint"}).addTo(map);
+		marker1.bindPopup("<b>Disneyland!</b><br>Happiest place on Earth!").openPopup();	
+	</script>
+</body>
+</html>
