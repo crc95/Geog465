@@ -1,0 +1,35 @@
+<html>
+
+<head><title>Week 9 Lab 1 part 2</title>
+
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css"/>
+
+</head>
+
+<body>
+
+	<script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+
+	<div id="map" style="width: 600px; height: 400px; margin: auto"></div>
+
+	<script>
+
+		var map = L.map('map',
+		{
+		center: [35.10418, -106.62987],
+		zoom: 10
+		});
+
+		L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(map);
+		var marker = L.marker([35.10418, -106.62987], {title:"MyPoint", draggable:true}).addTo(map);
+		function markerInfo(){
+		marker.bindPopup("I have been moved to: " + String(marker.getLatLng()));
+		}
+
+		marker.on('dragend', markerInfo); 
+		
+	</script>
+
+</body>
+
+</html>

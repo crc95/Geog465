@@ -1,0 +1,114 @@
+<html>
+<head><title>Grandmas are the Best!</title>
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css"/>
+</head>
+<body>
+	<script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+	<div id="map" style="width: 600px; height: 400px; margin: auto"></div>
+	<script>
+		var map = L.map('map',
+		{
+		center: [47.718077, -122.223587],
+		zoom: 11
+		});
+		L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(map);
+
+ 		var geojson = [{
+ 			// Point: Grandma's house 
+			"type": "Feature",
+			"geometry": {
+			"type": "Point",
+			"coordinates": [-122.0656585, 47.76782999]
+			},
+			"properties": {
+				"name": "Point 1",
+				"title": "Near Grandma's House!",
+			}},
+			// line: How to get to Grandma's House
+			{
+			"type": "Feature",
+			"geometry": {
+			"type": "LineString",
+			"coordinates": [ [
+            -122.0684051513672,
+            47.76886840424207
+          ],
+          [
+            -122.15492248535156,
+            47.766560801839226
+          ],
+          [
+            -122.16590881347656,
+            47.75779097897638
+          ],
+          [
+            -122.18650817871094,
+            47.75732936839834
+          ],
+          [
+            -122.26203918457031,
+            47.75779097897638
+          ],
+          [
+            -122.29568481445312,
+            47.730087095193056
+          ],
+          [
+            -122.26203918457031,
+            47.67324803590928
+          ]]
+			},
+			"properties": {
+				"name": "Line 1",
+				"title": "My apartment to Grandma's house."
+			}},
+			// Polygon: Uncharted Territory 
+			{
+			"type": "Feature",
+			"geometry": {
+			"type": "Polygon",
+			"coordinates": [ [
+            [
+              -122.2510528564453,
+              47.74809629679189
+            ],
+            [
+              -122.26409912109375,
+              47.73609085456231
+            ],
+            [
+              -122.24212646484375,
+              47.70098214806642
+            ],
+            [
+              -122.18170166015625,
+              47.709299506131345
+            ],
+            [
+              -122.1576690673828,
+              47.73470543306706
+            ],
+            [
+              -122.2510528564453,
+              47.74809629679189
+            ]
+          ]]
+			},
+			"properties": {
+				"name": "Polygon 1",
+				"title": "Places I have not explored much"
+			}
+			}]
+		function styleFunction(){return {color:"#ff0080"};}
+		function newStyle(){geoJsonLayer.setStyle({color:"Yellow"});}
+		function oldStyle(){geoJsonLayer.setStyle({color:"#ff0080"});}
+		
+		var geoJsonLayer = L.geoJson(geojson, {style:styleFunction, onEachFeature: function(feature, layer)
+		{layer.bindPopup(feature.properties.title);}}).addTo(map);
+		
+		geoJsonLayer.on('mouseover', newStyle);
+		geoJsonLayer.on('mouseout',oldStyle);
+
+	</script>
+</body>
+</html>
