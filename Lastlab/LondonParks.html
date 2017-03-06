@@ -1,0 +1,75 @@
+<html>
+<head>
+	<title>Parks in London</title>
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css"/>
+</head>
+<body>
+	<script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+	<script src="week10part3.js"></script>
+	<div id="map" style="width: 600px; height: 400px; margin: auto"></div>
+	<script>
+		var map = L.map('map',
+			{
+			center: [51.50713981232172, -0.12514114379882812, ],
+			zoom: 12
+			}
+		);
+		
+		L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(map);
+	
+		function color(x) {
+			return x > 700000 ? '#454C68' :
+			x > 500000 ? '#6C76A3' :
+			x > 250000 ? '#6569BF' :
+			x > 100000 ? '#78B7DE' :
+			x > 50000 ? '#95C2E8' :
+			x > 0 ? '#C6DBE8' :'#fff7ec';
+		}
+		
+		function trafficStyle(feature) {
+			return {
+			fillColor: color(feature.properties.traffic),
+			weight: 1,
+			opacity: 1,
+			color: 'white',
+			fillOpacity: 1
+			};
+		}
+
+		function ratingColor(x) {
+			return x > 9 ? '#990000' :
+			x > 6 ? '#353E1A' :
+			x > 5 ? '#566629' :
+			x > 3 ? '#52AA5E' :
+			x > 2 ? '#82D173' :
+			x > 0 ? '#B3EFB2' :'#CEF4CE';
+		}
+		
+		function ratingStyle(feature) {
+			return {
+			fillColor: ratingColor(feature.properties.Rating),
+			weight: 1,
+			opacity: 1,
+			color: 'white',
+			fillOpacity: 1
+			};
+		}
+		//creates the traffic layer and deletes the rating layer
+		function traffic(){
+			var GeoJSONLayer = L.geoJson(myData, {style: trafficStyle}).addTo(map);
+			removeLayer(ratingLayer);
+			
+
+		}
+		//creates the rating layer and deletes the traffic layer.
+		function rating(){
+			var ratingLayer = L.geoJson(myData, {style: ratingStyle}).addTo(map);
+			removeLayer(GeoJSONLayer);
+		}
+		
+
+	</script>
+	<button onclick="rating()">Park Rating</button>
+	<button onclick="traffic()">Traffic per Year</button>
+</body>
+</html>
