@@ -1,0 +1,76 @@
+<html>
+<head>
+	<title>Tourist Map of Sao Paulo</title>
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css"/>
+</head>
+<body>
+	<script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+	<script src="saopaulo.js"></script>
+	<script src="polygon.js"></script>
+	<script src="line.js"></script>
+	<script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.2.4"></script>
+	<div id="map" style="width: 800px; height: 600px; margin: auto"></div>
+	<script>
+
+	//
+	// initialize the map
+	var mymap = L.map('map',
+			{
+			center: [-23.5453, -46.6387 ],
+			zoom: 13
+			}
+		);
+	var layer = new L.StamenTileLayer('terrain');
+	mymap.addLayer(layer);
+	//
+	// Hard-coded marker with popup
+	var marker = L.marker([-23.55, -46.633]).addTo(mymap);
+	marker.bindPopup("<b>Sao Paulo</b><br>City Center").openPopup();
+	//
+	// Polygon Features, rollover feature color change, with popup of names
+	function styleFunction(){return {color:"#ff0080"};}
+	function newStyle(){geoJsonLayer.setStyle({color:"Yellow"});}
+	function oldStyle(){geoJsonLayer.setStyle({color:"#ff0080"});}
+		
+	var geoJsonLayer = L.geoJson(polyData, {style:styleFunction, onEachFeature: function(feature, layer)
+		{layer.bindPopup(feature.properties.Name);}}).addTo(mymap);
+		
+	geoJsonLayer.on('mouseover', newStyle);
+	geoJsonLayer.on('mouseout',oldStyle);
+	//
+	
+	//button for points
+	function pointLayer(){
+	var geojsonLayer = L.geoJson(pointData, {onEachFeature: function(feature,layer)
+			{layer.bindPopup(feature.properties.spot);}}).addTo(mymap);
+	
+	removeLayer(lineLayer);
+	}
+	
+	//lines with names as popup
+	function lineLayer(){
+		var lineLayer = L.geoJson(lineData, {onEachFeature: function(feature,layer)
+			{layer.bindPopup(feature.properties.Name);}}).addTo(mymap);
+		removeLayer(geojsonLayer);
+	}
+	</script>
+	<br>
+	<button onclick="lineLayer()">Transportation</button>
+	<button onclick="pointLayer()">Places to Go </button>
+	
+	<h1> What is this map? </h1>
+	<p>This map was created to help with tourism in Sao Paulo, Brazil. By including transportation, large tourist attractions, and smaller locations like restaurants, museums, parks, etc this map is comprehensive for all types of tourists.
+	I have wanted to travel to Brazil for a while now so this was a good way for me to do research on what tourists do in the city and then also see some local places that are not tourist attractions. The 
+	transportation routes that were chosen were chosen because of the ease of use and the popularity of each, which plays into part of the safety of the choice of transportation.</p>
+	<h1>Cartographic Choices</h1>
+	<p>The basemap for this one is a simple map that shows the streets and local area names. I chose this because tourists will want to see more
+	information about the location they are in, like street names to help them travel aroung the area. Colors are simple as well, basic and default colors mostly.
+	I chose to have the choice to look at transportation and places so the map does not get too cluttered with information.</p>
+	<h1>New Leaflet Approach</h1>
+	<p>With many attempts I tried using a custome marker to display the different types of points I have: restaurants, theaters, museums, and
+	churches. This was to have easy visuals for the user without clicking on the point to get a name to figure out the purpose of the points. This had many difficulties with
+	trying to get it to work. Still does not work, going to keep trying after turning in because this is bothering me and I want it to work.</p>
+	
+	
+</body>
+</html>
